@@ -3,6 +3,7 @@ from calculate_score import ScoreSlotsEnum, CalculateScore
 from Dices.regular_dice import create_regular_six_sided_die, Side
 from Dices.dice import Face
 from functools import wraps
+import os
 
 class Yatzy:
     """
@@ -122,6 +123,13 @@ def draw_faces_horizontal(faces:list[Face]) -> str:
     face_string += " ## 1 ##   ## 2 ##   ## 3 ##   ## 4 ##   ## 5 ##  \n"
     return face_string
 
+def _new_screen():
+    '''
+    Clears the screen, for windows and unix'''
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def main():
     players = []
@@ -136,6 +144,7 @@ def main():
     yatzy.start_game()
     yatzy.roll_all_dice()
     while True:
+        _new_screen()
         dices_side_up = yatzy.get_dices_side_up()
         print(draw_faces_horizontal([side.face for side in dices_side_up]))
         current_player = yatzy.get_current_players_turn()
