@@ -1,8 +1,8 @@
-from .dice import Dice, Side
+from .dice import Die, Side
 from .dots import OneDot,TwoDots,ThreeDots,FourDots,FiveDots,SixDots
 from enum import Enum
 
-class RegularDiceValuesEnum(Enum):
+class RegularDieValuesEnum(Enum):
     ONE = 1
     TWO = 2
     THREE = 3
@@ -11,9 +11,9 @@ class RegularDiceValuesEnum(Enum):
     SIX = 6
 
 
-def create_regular_six_sided_dice() -> Dice:
-    val = RegularDiceValuesEnum
-    return Dice(
+def create_regular_six_sided_dice() -> Die:
+    val = RegularDieValuesEnum
+    return Die(
         [
         Side(val.ONE, OneDot()),
         Side(val.TWO, TwoDots()),
