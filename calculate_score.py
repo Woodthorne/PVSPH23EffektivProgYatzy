@@ -159,21 +159,21 @@ class CalculateScore:
     def get_method_by_ScoreSlotsEnum(self, slot:ScoreSlotsEnum) -> Callable[[list[Die]],int]|None:
         """Returns method for current class given a specific ScoreSlotsEnum"""
         match slot:
-            case ScoreSlotsEnum.ONES: self.ones
-            case ScoreSlotsEnum.TWOS: self.twos
-            case ScoreSlotsEnum.THREES: self.threes
-            case ScoreSlotsEnum.FOURS: self.fours
-            case ScoreSlotsEnum.FIVES: self.fives
-            case ScoreSlotsEnum.SIXES: self.sixes
-            case ScoreSlotsEnum.ONE_PAIR: self.one_pair
-            case ScoreSlotsEnum.TWO_PAIR: self.two_pais
-            case ScoreSlotsEnum.THREE_OF_A_KIND: self.three_of_a_kind
-            case ScoreSlotsEnum.FOUR_OF_A_KIND: self.four_of_a_kind
-            case ScoreSlotsEnum.SMALL_STRAIGHT: self.small_straight
-            case ScoreSlotsEnum.LARGE_STRAIGHT: self.large_straight
-            case ScoreSlotsEnum.FULL_HOUSE: self.full_house
-            case ScoreSlotsEnum.CHANCE: self.chance
-            case ScoreSlotsEnum.YATZY: self.yatzy
+            case ScoreSlotsEnum.ONES: return self.ones
+            case ScoreSlotsEnum.TWOS: return self.twos
+            case ScoreSlotsEnum.THREES: return self.threes
+            case ScoreSlotsEnum.FOURS: return self.fours
+            case ScoreSlotsEnum.FIVES: return self.fives
+            case ScoreSlotsEnum.SIXES: return self.sixes
+            case ScoreSlotsEnum.ONE_PAIR: return self.one_pair
+            case ScoreSlotsEnum.TWO_PAIR: return self.two_pais
+            case ScoreSlotsEnum.THREE_OF_A_KIND: return self.three_of_a_kind
+            case ScoreSlotsEnum.FOUR_OF_A_KIND: return self.four_of_a_kind
+            case ScoreSlotsEnum.SMALL_STRAIGHT: return self.small_straight
+            case ScoreSlotsEnum.LARGE_STRAIGHT: return self.large_straight
+            case ScoreSlotsEnum.FULL_HOUSE: return self.full_house
+            case ScoreSlotsEnum.CHANCE: return self.chance
+            case ScoreSlotsEnum.YATZY: return self.yatzy
             case _:
                 raise None
 

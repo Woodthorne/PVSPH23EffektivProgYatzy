@@ -43,12 +43,14 @@ class ScoreSheet:
             points:int
             ) -> None:
         
-        if self._players[player][slot] == None:
+        if self._players[player][slot] != None:
             message = f'Score already set for {slot.name} for player:{player}!'
-            raise ValueError(message)
+            # raise ValueError(message)
+            return False
         
         self._players[player][slot] = points
-
+        return True
+    
     def calculate_bonus(self, player:Player, threshold:int=63, bonus:int=50) -> None:
         """Assumes that values for ones, twos, threes, fours, fives and sixes are set!"""
         sc = ScoreSlotsEnum
