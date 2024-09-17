@@ -1,5 +1,6 @@
 from Dices.dice import Dice
 from Dices.regular_dice import RegularDiceValuesEnum
+## Cirkulär importering av scoreslotsenum
 from score_sheet import ScoreSlotsEnum
 from collections import defaultdict
 from typing import Callable
@@ -58,7 +59,9 @@ class CalculateScore:
 
         return 2 * max_value_pair.value 
 
-
+    ###
+    # Felstavat two_pairs inte two_pais
+    ###
     def two_pais(self, dices:list[Dice]) -> int:
         unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
         nr_unique_dices = len(unique_dice_frequency)
@@ -93,7 +96,9 @@ class CalculateScore:
         four_dices = max(unique_dice_frequency, key=lambda x: unique_dice_frequency[x])
         return 4 * four_dices.value 
 
-
+    ###
+    # Kan förenklas
+    ###
     def small_straight(self, dices:list[Dice]) -> int:
         unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
         nr_unique_dices = len(unique_dice_frequency)
@@ -113,6 +118,9 @@ class CalculateScore:
         else:
             return 0
 
+    ###
+    # Kan förenklas
+    ###
     def large_straight(self, dices:list[Dice]) -> int:
         unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
         nr_unique_dices = len(unique_dice_frequency)
@@ -155,7 +163,7 @@ class CalculateScore:
 
         return 50 if len(unique_dice_frequency) == 1 else 0
 
-
+    ### Returnerar ingenting vid varje case.
     def get_method_by_ScoreSlotsEnum(self, slot:ScoreSlotsEnum) -> Callable[[list[Dice]],int]|None:
         """Returns method for current class given a specific ScoreSlotsEnum"""
         match slot:
@@ -175,6 +183,7 @@ class CalculateScore:
             case ScoreSlotsEnum.CHANCE: self.chance
             case ScoreSlotsEnum.YATZY: self.yatzy
             case _:
+                ## kanske ett valueerror istället för None vid ingen scoreslot?
                 raise None
 
     def _get_dice_values(self, dices:list[Dice]) -> list[RegularDiceValuesEnum]:

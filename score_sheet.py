@@ -42,7 +42,9 @@ class ScoreSheet:
             slot:ScoreSlotsEnum,
             points:int
             ) -> None:
-        
+        ##
+        ### En bakåtvänd logik, om en slot är tom så är score already set? borde vara is not None
+        ##
         if self._players[player][slot] == None:
             message = f'Score already set for {slot.name} for player:{player}!'
             raise ValueError(message)

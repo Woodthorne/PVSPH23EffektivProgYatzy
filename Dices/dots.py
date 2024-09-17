@@ -11,6 +11,8 @@ class Dots:
     def __str__(self) -> str:
         return "\n".join(self.face)
 
+
+## Lite onödigt komplicerat, kan vara en dictionary med all ascii som sedan kallas direkt som både score och art.
 class OneDot(Dots):
     face = [
         " ------- ",
