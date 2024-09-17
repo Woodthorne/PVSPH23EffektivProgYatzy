@@ -1,5 +1,5 @@
 from .dice import Dice, Side
-from .dots import OnePip, TwoPips, ThreePips, FourPips, FivePips, SixPips
+from .dots import OneDot,TwoDots,ThreeDots,FourDots,FiveDots,SixDots
 from enum import Enum
 
 class RegularDiceValuesEnum(Enum):
@@ -15,11 +15,11 @@ def create_regular_six_sided_dice() -> Dice:
     val = RegularDiceValuesEnum
     return Dice(
         [
-        Side(val.ONE, OnePip()),
-        Side(val.TWO, TwoPips()),
-        Side(val.THREE, ThreePips()),
-        Side(val.FOUR, FourPips()),
-        Side(val.FIVE, FivePips()),
-        Side(val.SIX, SixPips())
+        Side(val.ONE, OneDot()),
+        Side(val.TWO, TwoDots()),
+        Side(val.THREE, ThreeDots()),
+        Side(val.FOUR, FourDots()),
+        Side(val.FIVE, FiveDots()),
+        Side(val.SIX, SixDots())
         ]
     )

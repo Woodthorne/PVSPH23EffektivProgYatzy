@@ -1,5 +1,5 @@
 
-class Pips:
+class Dots:
     face = ['']
 
     def draw(self) -> str:
@@ -11,7 +11,7 @@ class Pips:
     def __str__(self) -> str:
         return "\n".join(self.face)
 
-class OnePip(Pips):
+class OneDot(Dots):
     face = [
         " ------- ",
         "|       |",
@@ -20,7 +20,7 @@ class OnePip(Pips):
         " ------- "
         ]
     
-class TwoPips(Pips):
+class TwoDots(Dots):
     face = [
         " ------- ",
         "| ●     |",
@@ -29,7 +29,7 @@ class TwoPips(Pips):
         " ------- "
         ]
    
-class ThreePips(Pips):
+class ThreeDots(Dots):
     face = [
         " ------- ",
         "| ●     |",
@@ -38,7 +38,7 @@ class ThreePips(Pips):
         " ------- "
         ]
 
-class FourPips(Pips):
+class FourDots(Dots):
     face = [
         " ------- ",
         "| ●   ● |",
@@ -47,7 +47,7 @@ class FourPips(Pips):
         " ------- "
         ]
 
-class FivePips(Pips):
+class FiveDots(Dots):
     face = [
         " ------- ",
         "| ●   ● |",
@@ -56,7 +56,7 @@ class FivePips(Pips):
         " ------- "
         ]
 
-class SixPips(Pips):
+class SixDots(Dots):
     face = [
         " ------- ",
         "| ●   ● |",
