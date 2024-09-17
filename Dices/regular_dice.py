@@ -11,7 +11,7 @@ class RegularDieValuesEnum(Enum):
     SIX = 6
 
 
-def create_regular_six_sided_dice() -> Die:
+def create_regular_six_sided_die() -> Die:
     val = RegularDieValuesEnum
     return Die(
         [
