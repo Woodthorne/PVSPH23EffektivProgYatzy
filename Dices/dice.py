@@ -33,9 +33,9 @@ class Side:
         return self._face
 
 
-class Dice:
+class Die:
     """
-    A dice is a generic object that has n sides with symbols and values🎲
+    A die is a generic object that has n sides with symbols and values🎲
     """
 
     def __init__(self,sides:list[Side]) -> None:    

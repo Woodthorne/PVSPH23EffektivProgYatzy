@@ -1,5 +1,5 @@
-from Dices.dice import Dice
-from Dices.regular_dice import RegularDiceValuesEnum
+from Dices.dice import Die
+from Dices.regular_dice import RegularDieValuesEnum
 from score_sheet import ScoreSlotsEnum
 from collections import defaultdict
 from typing import Callable
@@ -9,48 +9,48 @@ class CalculateScore:
     """
     This class calculates score/points for playing Yatsy.
     
-    Assumes the game is played with regular dices! -> ⚀⚁⚂⚃⚄⚅
+    Assumes the game is played with regular dice! -> ⚀⚁⚂⚃⚄⚅
 
-    Returns 0 if invalid collection of dices is passed for specific method.
+    Returns 0 if invalid collection of dice is passed for specific method.
 
     Exampel: if ⚃⚄⚄⚄⚄ is passed to two_pairs the result would be 0
-    since there ain't two valid pairs among the five dices.
+    since there ain't two valid pairs among the five dice.
 
 
     """
     def __init__(self) -> None:
-        self.rdv = RegularDiceValuesEnum    
+        self.rdv = RegularDieValuesEnum    
 
-    def ones(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.ONES)
+    def ones(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.ONES)
     
-    def twos(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.TWOS)
+    def twos(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.TWOS)
     
-    def threes(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.THREES)
+    def threes(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.THREES)
         
-    def fours(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.FOURS)
+    def fours(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.FOURS)
     
-    def fives(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.FIVES)
+    def fives(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.FIVES)
 
-    def sixes(self, dices:list[Dice]) -> int:
-        return self._singel_values(dices, ScoreSlotsEnum.SIXES)
+    def sixes(self, dice:list[Die]) -> int:
+        return self._single_values(dice, ScoreSlotsEnum.SIXES)
     
-    def one_pair(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def one_pair(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices == 5: 
+        if nr_unique_dice == 5: 
             return 0
 
-        elif nr_unique_dices == 4:
+        elif nr_unique_dice == 4:
             max_value_pair = max(unique_dice_frequency, key=lambda x: unique_dice_frequency[x])
         
-        elif nr_unique_dices >= 2:
-            pair1,pair2 = [d for d,freq in unique_dice_frequency.items() if freq > 1]
+        elif nr_unique_dice >= 2:
+            pair1, pair2 = [d for d,freq in unique_dice_frequency.items() if freq > 1]
             max_value_pair = pair1 if pair1.value > pair2.value else pair2
 
         else:
@@ -59,11 +59,11 @@ class CalculateScore:
         return 2 * max_value_pair.value 
 
 
-    def two_pais(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def two_pais(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices >= 4 or nr_unique_dices == 1: 
+        if nr_unique_dice >= 4 or nr_unique_dice == 1: 
             return 0
 
         if 4 in unique_dice_frequency.values(): 
@@ -74,31 +74,31 @@ class CalculateScore:
         return 2 * pair1.value + 2 * pair2.value
 
 
-    def three_of_a_kind(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def three_of_a_kind(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices > 3: return 0
+        if nr_unique_dice > 3: return 0
 
         three_dices = max(unique_dice_frequency, key=lambda x: unique_dice_frequency[x])
         return 3 * three_dices.value 
 
 
-    def four_of_a_kind(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def four_of_a_kind(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices > 2: return 0
+        if nr_unique_dice > 2: return 0
 
         four_dices = max(unique_dice_frequency, key=lambda x: unique_dice_frequency[x])
         return 4 * four_dices.value 
 
 
-    def small_straight(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def small_straight(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices != 5: return 0
+        if nr_unique_dice != 5: return 0
 
         small_s = [
             self.rdv.ONE,
@@ -113,11 +113,11 @@ class CalculateScore:
         else:
             return 0
 
-    def large_straight(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
-        nr_unique_dices = len(unique_dice_frequency)
+    def large_straight(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
+        nr_unique_dice = len(unique_dice_frequency)
 
-        if nr_unique_dices != 5: return 0
+        if nr_unique_dice != 5: return 0
 
         large_s = [
             self.rdv.TWO,
@@ -132,8 +132,8 @@ class CalculateScore:
         else:
             return 0
 
-    def full_house(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
+    def full_house(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
 
         if len(unique_dice_frequency) != 2: 
             return 0
@@ -144,19 +144,19 @@ class CalculateScore:
         return sum([d.value*count for d,count in unique_dice_frequency.items()])
 
 
-    def chance(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
+    def chance(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
 
         return sum([d.value*count for d,count in unique_dice_frequency.items()])
 
 
-    def yatzy(self, dices:list[Dice]) -> int:
-        unique_dice_frequency = self._get_frequency_of_unique_dice_values(dices)
+    def yatzy(self, dice:list[Die]) -> int:
+        unique_dice_frequency = self._get_frequency_of_unique_die_values(dice)
 
         return 50 if len(unique_dice_frequency) == 1 else 0
 
 
-    def get_method_by_ScoreSlotsEnum(self, slot:ScoreSlotsEnum) -> Callable[[list[Dice]],int]|None:
+    def get_method_by_ScoreSlotsEnum(self, slot:ScoreSlotsEnum) -> Callable[[list[Die]],int]|None:
         """Returns method for current class given a specific ScoreSlotsEnum"""
         match slot:
             case ScoreSlotsEnum.ONES: return self.ones
@@ -177,16 +177,16 @@ class CalculateScore:
             case _:
                 raise None
 
-    def _get_dice_values(self, dices:list[Dice]) -> list[RegularDiceValuesEnum]:
-        return [d.side_up.value for d in dices]
+    def _get_dice_values(self, dice:list[Die]) -> list[RegularDieValuesEnum]:
+        return [d.side_up.value for d in dice]
 
 
-    def _get_frequency_of_unique_dice_values(self, dices:list[Dice]) -> dict[RegularDiceValuesEnum,int]:
+    def _get_frequency_of_unique_die_values(self, dice:list[Die]) -> dict[RegularDieValuesEnum,int]:
         """
-        Returns a dictionary with the frequence of occuring dices.
+        Returns a dictionary with the frequence of occuring dice.
         Example: ⚀⚁⚄⚁⚄ -> {⚀:1, ⚁:2, ⚄:2}
         """
-        dice_values = self._get_dice_values(dices)
+        dice_values = self._get_dice_values(dice)
 
         unique_dice_frequency = defaultdict(int)
 
@@ -195,7 +195,7 @@ class CalculateScore:
 
         return unique_dice_frequency
     
-    def _singel_values(self, dices:list[Dice], sc:ScoreSlotsEnum) -> int:
+    def _single_values(self, dice: list[Die], sc: ScoreSlotsEnum) -> int:
         """
         Function to calculate either ones, twos, threes, fours, fives or sixes!
         """
@@ -210,6 +210,6 @@ class CalculateScore:
             case _:
                 raise ValueError('Can only calculate ones, twos, threes, fours, fives or sixes!')
 
-        dice_values = self._get_dice_values(dices)
-        nr_of_dices = dice_values.count(dv)
-        return nr_of_dices * dv.value
+        dice_values = self._get_dice_values(dice)
+        nr_of_dice = dice_values.count(dv)
+        return nr_of_dice * dv.value
