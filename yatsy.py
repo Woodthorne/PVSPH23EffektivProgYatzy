@@ -25,6 +25,7 @@ class Yatzy:
         self._game_dices = {dice_id:create_regular_six_sided_dice() for dice_id in range(1,6)}
         self._score_calculator = CalculateScore()
         self._game_started = False
+        self._is_done = False
 
 
     def roll_counter(func):
@@ -68,15 +69,15 @@ class Yatzy:
         if not method: 
             raise ValueError(f"Error occured when trying to fetch method for slot:{slot}!")
         
-        points = method(self._game_dices)
+        points = method(self._game_dices.values())
 
-        self._score_sheet.write_points(
+        if self._score_sheet.write_points(
             self._current_players_turn,
             slot,
-            points)
-
-        self._start_next_players_turn()
-
+            points):
+            self._start_next_players_turn()
+            return True
+        return False
 
     def start_game(self) -> None:
         assert not self._game_started
@@ -99,12 +100,13 @@ class Yatzy:
 
 
     def _start_new_round(self) -> None:
-        if self._round <= 13:
+        if self._round < 15:
             self._round += 1
             self._player_sequens_turns = iter(player for player in self._players)
             self._current_players_turn = next(self._player_sequens_turns)
             self._current_players_roll_count = 0
         else:
+            self._is_done = True
             self._end_game()
 
 
@@ -122,26 +124,53 @@ def draw_faces_horizontal(faces:list[Face]) -> str:
 
 
 def main():
-    p1 = Player("Sebastian")
-    p2 = Player("Kalle")
-    yatzy = Yatzy([p1,p2])
+    players = []
+    print(f'##\tYATZY\t##')
+    nr_of_players = input("Antal spelare (2-5): ")
+    for n in range(int(nr_of_players)):
+        player_name = input(f'Namn spelare {n+1}: ')
+        players.append(Player(player_name))
+
+
+    yatzy = Yatzy(players)
     yatzy.start_game()
     yatzy.roll_all_dices()
-    while True:
+    while not yatzy._is_done:
         dices_side_up = yatzy.get_dices_side_up()
         print(draw_faces_horizontal([side.face for side in dices_side_up]))
         current_player = yatzy.get_current_players_turn()
-        print(f"Det är {current_player.name} tur att spela!")
+        print(f"Det är {current_player.name.upper()} tur att spela!")
         slots = yatzy.get_current_players_unscored_slots()
         for slot in slots:
-            print(slot.name)
-        val = input("Q or what??")
-        if val == "q":break
-        if val == "": 
+            print(f'{slot.name}: {slot.value}')
+        
+        print("#####################################")
+        print("[Enter] för att slå om alla tärningar")
+        print("Välj tärningar att kasta om (Ex: 23 tärningar 2 och 3)")
+        print("[S] för att spara poängen")
+        print("[Q] för att avsluta spelet")
+        
+        val = input("Val: ")
+        if val == "Q" or val == "q":
+            break
+        if val == "S" or val == "s":
+            while True:
+                score_slot = input("Välj scoreslot: ")
+                if yatzy.set_current_players_score(ScoreSlotsEnum(int(score_slot))):
+                    break
+                else:
+                    print("Poängslot ej tillgänglig!")
+                    
+            yatzy.roll_all_dices()
+        elif val == "": 
             yatzy.roll_all_dices()
         else:
-            re_roll = [int(n) for n in val.split()]
+            re_roll = [int(n) for n in val]
+            print(re_roll)
             yatzy.roll_a_subset_of_dices(re_roll)
+    if yatzy._is_done:
+        for player in yatzy._score_sheet._players.keys():
+            print(f'{player}: {yatzy._score_sheet._players[player][ScoreSlotsEnum.TOTAL_SCORE]}')
 
 
 if __name__ == "__main__":
